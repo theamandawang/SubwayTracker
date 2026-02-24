@@ -77,7 +77,7 @@ class RunText(SampleBase):
                     self.matrix.SwapOnVSync(bg_canvas)
 
                 blink_ct += 1
-                time.sleep(5)
+                time.sleep(0.05)
 
 # Main function
 if __name__ == "__main__":
