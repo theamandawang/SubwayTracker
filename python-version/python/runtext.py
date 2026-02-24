@@ -20,7 +20,7 @@ class RunText(SampleBase):
         self.parser.add_argument("-f", "--font", help="Path to *.bdf-font to be used", default=DEFAULT_FONT)
         self.parser.add_argument("-t", "--text", help="The text to scroll on the RGB LED panel", default="Hello world!")
 
-        self.parser.add_argument("-y", type=int, help="Shift Y-Origin of displaying text (Default: 0)", default=0)
+        self.parser.add_argument("-y", type=int, help="Shift Y-Origin of displaying text (Default: 12)", default=12)
         self.parser.add_argument("-l", "--loop", type=int, help="Number of loops through the text")
         self.parser.add_argument("-k", "--blink", help="Blink while scrolling. Keep on and off for these amount of scrolled pixels. Ex: 10,5", default=None)
 
