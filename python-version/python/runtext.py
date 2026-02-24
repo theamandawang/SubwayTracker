@@ -47,14 +47,14 @@ class RunText(SampleBase):
         blink_on_for, blink_off_for = [int(v) for v in self.args.blink.split(",")] if self.args.blink else [float("inf"), 0]
         blink_ct = 0
         blink_on = True
-	while True:
-	    northbound, southbound = get_next_arrivals('https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g', 'G28')
-	    next_northbound = min(northbound)
-    	    next_southbound = min(southbound)
-    	    now = time.time()
-	    north_time = int((next_northbound - now) // 60)
-	    south_time = int((next_southbound - now) // 60)
-	    text = f'Next Court Sq G: {north_time}               Next Church Ave G: {south_time}'
+        while True:
+            northbound, southbound = get_next_arrivals('https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g', 'G28')
+            next_northbound = min(northbound)
+            next_southbound = min(southbound)
+            now = time.time()
+            north_time = int((next_northbound - now) // 60)
+            south_time = int((next_southbound - now) // 60)
+            text = f'Next Court Sq G: {north_time}               Next Church Ave G: {south_time}'
             while i < loop_max:
                 x_pos -= 1
 
@@ -79,7 +79,7 @@ class RunText(SampleBase):
                 blink_ct += 1
 
                 time.sleep(0.05)
-	    time.sleep(60)
+            time.sleep(60)
 
 # Main function
 if __name__ == "__main__":
