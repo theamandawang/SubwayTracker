@@ -48,6 +48,7 @@ class RunText(SampleBase):
         blink_ct = 0
         blink_on = True
         while True:
+            print('query api')
             northbound, southbound = get_next_arrivals('https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g', 'G28')
             next_northbound = min(northbound)
             next_southbound = min(southbound)
@@ -77,7 +78,8 @@ class RunText(SampleBase):
                     self.matrix.SwapOnVSync(bg_canvas)
 
                 blink_ct += 1
-                time.sleep(0.05)
+                time.sleep(0.07)
+            time.sleep(10)
 
 # Main function
 if __name__ == "__main__":
