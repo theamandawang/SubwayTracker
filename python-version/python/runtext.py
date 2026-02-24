@@ -20,7 +20,7 @@ class RunText(SampleBase):
         self.parser.add_argument("-f", "--font", help="Path to *.bdf-font to be used", default=DEFAULT_FONT)
         self.parser.add_argument("-t", "--text", help="The text to scroll on the RGB LED panel", default="Hello world!")
 
-        self.parser.add_argument("-y", type=int, help="Shift Y-Origin of displaying text (Default: 10)", default=10)
+        self.parser.add_argument("-y", type=int, help="Shift Y-Origin of displaying text (Default: 0)", default=0)
         self.parser.add_argument("-l", "--loop", type=int, help="Number of loops through the text")
         self.parser.add_argument("-k", "--blink", help="Blink while scrolling. Keep on and off for these amount of scrolled pixels. Ex: 10,5", default=None)
 
@@ -41,14 +41,14 @@ class RunText(SampleBase):
 
         # Looping params
         i = 0
-        loop_max = self.args.loop or 5
+        loop_max = self.args.loop or 3
 
         # Blinking params
         blink_on_for, blink_off_for = [int(v) for v in self.args.blink.split(",")] if self.args.blink else [float("inf"), 0]
         blink_ct = 0
         blink_on = True
         while True:
-            print('query api')
+            i = 0
             northbound, southbound = get_next_arrivals('https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g', 'G28')
             next_northbound = min(northbound)
             next_southbound = min(southbound)
@@ -78,7 +78,7 @@ class RunText(SampleBase):
                     self.matrix.SwapOnVSync(bg_canvas)
 
                 blink_ct += 1
-                time.sleep(0.07)
+                time.sleep(0.06)
             time.sleep(10)
 
 # Main function
