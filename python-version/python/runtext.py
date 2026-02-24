@@ -41,7 +41,7 @@ class RunText(SampleBase):
 
         # Looping params
         i = 0
-        loop_max = self.args.loop or float("inf")
+        loop_max = self.args.loop or 5
 
         # Blinking params
         blink_on_for, blink_off_for = [int(v) for v in self.args.blink.split(",")] if self.args.blink else [float("inf"), 0]
@@ -54,7 +54,7 @@ class RunText(SampleBase):
             now = time.time()
             north_time = int((next_northbound - now) // 60)
             south_time = int((next_southbound - now) // 60)
-            text = f'Next Court Sq G: {north_time}               Next Church Ave G: {south_time}'
+            text = f'Court Sq G: {north_time}m       Church Ave G: {south_time}m'
             while i < loop_max:
                 x_pos -= 1
 
@@ -77,9 +77,7 @@ class RunText(SampleBase):
                     self.matrix.SwapOnVSync(bg_canvas)
 
                 blink_ct += 1
-
-                time.sleep(0.05)
-            time.sleep(60)
+                time.sleep(5)
 
 # Main function
 if __name__ == "__main__":
