@@ -48,8 +48,8 @@ class RunText(SampleBase):
 
 
         image = Image.open(os.path.dirname(os.path.realpath(__file__))+"/media/g.png")
-        image.thumbnail((16, 16), Image.LANCZOS)
-        self.matrix.SetImage(image.convert('RGB'))
+        image.thumbnail((10, 10), Image.LANCZOS)
+        self.matrix.SetImage(image.convert('RGB'), 0, 3, True)
 
         # Blinking params
         blink_on_for, blink_off_for = [int(v) for v in self.args.blink.split(",")] if self.args.blink else [float("inf"), 0]
