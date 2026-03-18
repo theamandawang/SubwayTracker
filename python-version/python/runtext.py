@@ -10,6 +10,7 @@ import time
 import os
 
 DEFAULT_FONT = "../../fonts/7x13.bdf"
+IMG_SIZE = 10
 
 def color(value):
     try:
@@ -48,8 +49,9 @@ class RunText(SampleBase):
 
 
         image = Image.open(os.path.dirname(os.path.realpath(__file__))+"/media/g.png")
-        image.thumbnail((10, 10), Image.LANCZOS)
-        self.matrix.SetImage(image.convert('RGB'), 0, 3, True)
+        image.thumbnail((IMG_SIZE, IMG_SIZE), Image.LANCZOS)
+
+        left_margin = IMG_SIZE
 
         # Blinking params
         blink_on_for, blink_off_for = [int(v) for v in self.args.blink.split(",")] if self.args.blink else [float("inf"), 0]
@@ -63,30 +65,37 @@ class RunText(SampleBase):
             now = time.time()
             north_time = int((next_northbound - now) // 60)
             south_time = int((next_southbound - now) // 60)
-            text = f'Court Sq: {north_time}m       Church Ave: {south_time}m'
+            north_text = f'Court Sq: {north_time}m'
+            south_text = f'Church Ave: {south_time}m'
             while i < loop_max:
-                # x_pos -= 1
+                for i in range(2):
+                    if i == 0:
+                        text = north_text
+                    else:
+                        text = south_text
+                    x_pos -= 1
 
-                # if blink_on:
-                #     if blink_ct >= blink_on_for:
-                #         blink_on = False
-                #         blink_ct = 0
+                    if blink_on:
+                        if blink_ct >= blink_on_for:
+                            blink_on = False
+                            blink_ct = 0
 
-                #     main_canvas.Fill(bg_color.red, bg_color.green, bg_color.blue)
-                #     len = graphics.DrawText(main_canvas, font, x_pos, self.args.y, self.args.text_color, text)
-                #     main_canvas = self.matrix.SwapOnVSync(main_canvas)
+                        main_canvas.Fill(bg_color.red, bg_color.green, bg_color.blue)
+                        main_canvas.SetImage(image.convert('RGB'), 0, 3, True)
+                        len = graphics.DrawText(main_canvas, font, x_pos, self.args.y, self.args.text_color, text)
+                        main_canvas = self.matrix.SwapOnVSync(main_canvas)
 
-                #     if (x_pos + len < 0):
-                #         i += 1
-                #         x_pos = main_canvas.width
-                # else:
-                #     if blink_ct >= blink_off_for:
-                #         blink_on = True
-                #         blink_ct = 0
-                #     self.matrix.SwapOnVSync(bg_canvas)
+                        if (x_pos + len < left_margin):
+                            i += 1
+                            x_pos = main_canvas.width
+                    else:
+                        if blink_ct >= blink_off_for:
+                            blink_on = True
+                            blink_ct = 0
+                        self.matrix.SwapOnVSync(bg_canvas)
 
-                # blink_ct += 1
-                time.sleep(0.06)
+                    blink_ct += 1
+                    time.sleep(0.06)
             time.sleep(10)
 
 # Main function
