@@ -68,34 +68,33 @@ class RunText(SampleBase):
             north_text = f'Court Sq: {north_time}m'
             south_text = f'Church Ave: {south_time}m'
             while i < loop_max:
-                for i in range(2):
-                    if i == 0:
-                        text = north_text
-                    else:
-                        text = south_text
-                    x_pos -= 1
+                if i%2 == 0:
+                    text = north_text
+                else:
+                    text = south_text
+                x_pos -= 1
 
-                    if blink_on:
-                        if blink_ct >= blink_on_for:
-                            blink_on = False
-                            blink_ct = 0
+                if blink_on:
+                    if blink_ct >= blink_on_for:
+                        blink_on = False
+                        blink_ct = 0
 
-                        main_canvas.Fill(bg_color.red, bg_color.green, bg_color.blue)
-                        main_canvas.SetImage(image.convert('RGB'), 0, 3, True)
-                        len = graphics.DrawText(main_canvas, font, x_pos, self.args.y, self.args.text_color, text)
-                        main_canvas = self.matrix.SwapOnVSync(main_canvas)
+                    main_canvas.Fill(bg_color.red, bg_color.green, bg_color.blue)
+                    main_canvas.SetImage(image.convert('RGB'), 0, 3, True)
+                    len = graphics.DrawText(main_canvas, font, x_pos, self.args.y, self.args.text_color, text)
+                    main_canvas = self.matrix.SwapOnVSync(main_canvas)
 
-                        if (x_pos + len < left_margin):
-                            i += 1
-                            x_pos = main_canvas.width
-                    else:
-                        if blink_ct >= blink_off_for:
-                            blink_on = True
-                            blink_ct = 0
-                        self.matrix.SwapOnVSync(bg_canvas)
+                    if (x_pos + len < left_margin):
+                        i += 1
+                        x_pos = main_canvas.width
+                else:
+                    if blink_ct >= blink_off_for:
+                        blink_on = True
+                        blink_ct = 0
+                    self.matrix.SwapOnVSync(bg_canvas)
 
-                    blink_ct += 1
-                    time.sleep(0.06)
+                blink_ct += 1
+                time.sleep(0.06)
             time.sleep(10)
 
 # Main function
